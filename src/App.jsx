@@ -6,15 +6,16 @@ import Footer from './component/layouts/Footer';
 import Home from './pages/Home';
 import About from './pages/About';
 import NotFound from './pages/NotFound';
+import {GithubProvider} from './context/github/GithubContext'
 function App() {
-  const apikey=process.env.REACT_APP_GITHUB_URL
+
   return (
-    
+    <GithubProvider>    
     <Router >
       
       <div className="flex flex-col justify-between h-screen">
         <Navbar />
-    
+   
         <main className='container mx-auto px-3 pb-12'>
 
           <Routes>
@@ -31,6 +32,8 @@ function App() {
       </div>
 
     </Router>
+    </GithubProvider>
+
   );
 }
 
