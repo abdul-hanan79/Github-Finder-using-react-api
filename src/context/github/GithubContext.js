@@ -4,8 +4,9 @@ import githubReducers from "./GithubReducers";
 
 const GithubContext = createContext()
 
-const GITHUB_URL = "https://api.github.com"
-const GITHUB_TOKEN = process.env.REACT_APP_GITHUB_TOKEN
+const GITHUB_URL = process.env.REACT_APP_GITHUB_URL
+const GITHUB_TOKEN = "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"
+// console.log("token value is ", GITHUB_TOKEN)
 
 export const GithubProvider = ({ children }) => {
     // const [users, setUsers] = useState([])
@@ -15,21 +16,40 @@ export const GithubProvider = ({ children }) => {
         loading: false
     }
     const [state, dispatch] = useReducer(githubReducers, initialState)
-    const fetchUsers = async () => {
+
+
+    // Get Search Results
+    const searchUsers = async (text) => {
         SET_LOADING()
+        // console.log("text in search user function", text)
+        const params = new URLSearchParams({
+            q: text
+        })
+        // console.log("token", GITHUB_TOKEN);
         // const response = await fetch(`${process.env.REACT_APP_GITHUB_URL}/users`, {
-        const response = await fetch(`${GITHUB_URL}/users`, {
+        // console.log(`URL IS AS FOLLOW -------------> ${GITHUB_URL}/search/users?${params}`)
+        const response = await fetch(`${GITHUB_URL}/search/users?${params}`, {
 
             headers: {
                 Authorization: `token ${GITHUB_TOKEN}`,
+
             }
         })
-        const data = await response.json()
+
+        // console.log("response", response);
+        const { items } = await response.json()
+
         dispatch({
             type: 'GET_USERS',
-            payload: data
+            payload: items,
         })
+        // console.log("items are", items);
     }
+    const clearUsers=()=> dispatch(
+        {
+            type:"CLEAR-USERS",
+        }
+    )
 
     const SET_LOADING = () => dispatch({
         type: "SET_LOADING"
@@ -37,7 +57,8 @@ export const GithubProvider = ({ children }) => {
     return (<GithubContext.Provider value={{
         users: state.users,
         loading: state.loading,
-        fetchUsers,
+        searchUsers,
+        clearUsers
     }}>
 
         {children}
@@ -45,3 +66,4 @@ export const GithubProvider = ({ children }) => {
 }
 
 export default GithubContext
+

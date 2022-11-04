@@ -6,6 +6,11 @@ const githubReducers=(state,action)=>{
             users: action.payload,
             loading:false,
             }
+            case 'CLEAR-USERS':
+            return{
+                ...state,
+                users:[]
+            }
             case 'SET_LOADING':
             return{
                 ...state,
