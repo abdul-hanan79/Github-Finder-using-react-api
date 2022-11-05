@@ -1,6 +1,6 @@
 
 const GITHUB_URL = process.env.REACT_APP_GITHUB_URL
-const GITHUB_TOKEN = "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"
+const GITHUB_TOKEN = "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"
 
 // Get Search Results
 export const searchUsers = async (text) => {
@@ -20,10 +20,16 @@ export const searchUsers = async (text) => {
         }
     })
 
-    // console.log("response", response);
-    const { items } = await response.json()
+    if (response.status === 404) {
+        window.location = '/notfound'
+    }
+    else {
 
-    return items
+
+        // console.log("response", response);
+        const { items } = await response.json()
+        return items
+    }
     // console.log("items are", items);
 }
 
