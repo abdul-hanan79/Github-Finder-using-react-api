@@ -16,7 +16,7 @@ export default function UserItems(props) {
                 </div>
                 <div>
                     <h2 className='card-title'>{login}</h2>
-                    <Link className='text-base-content text-opacity-40' to={'/users/${login}'}>
+                    <Link className='text-base-content text-opacity-40' to={`/users/${login}`}>
                         Visit Profile
                     </Link>
 
